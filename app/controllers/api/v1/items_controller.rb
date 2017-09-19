@@ -2,7 +2,7 @@ class Api::V1::ItemsController < Api::V1::BaseController
   before_action :find_item, only: [:show, :update]
 
   def index
-    respond_with Item.all
+    respond_with Item.all.order(id: :desc)
   end
 
   def show
@@ -10,7 +10,7 @@ class Api::V1::ItemsController < Api::V1::BaseController
   end
 
   def create
-    respond_with :api, :v1, Item.create(iteam_params)
+    respond_with :api, :v1, Item.create(item_params)
   end
 
   def update
@@ -23,6 +23,10 @@ class Api::V1::ItemsController < Api::V1::BaseController
   end
 
   private
+
+  def item_params
+    params.require(:item).permit(:id, :name, :description)
+  end
 
   def find_item
     @item = Item.find params[:id]
