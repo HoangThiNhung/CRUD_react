@@ -1,5 +1,5 @@
 class Api::V1::ItemsController < Api::V1::BaseController
-  before_action :find_item, only: [:show, :update]
+  # before_action :find_item, only: [:show, :update]
 
   def index
     respond_with Item.all.order(id: :desc)
@@ -14,8 +14,9 @@ class Api::V1::ItemsController < Api::V1::BaseController
   end
 
   def update
-    @item.update_attributes iteam_params
-    respond_with @item, json: @item
+    item = Item.find params[:id]
+    item.update_attributes(item_params)
+    respond_with item, json: item
   end
 
   def destroy
